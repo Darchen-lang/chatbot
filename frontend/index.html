@@ -59,7 +59,35 @@
           <div class="search-container">
             <input type="text" class="search-input" placeholder="Ponder..." style="font-style: italic;">
             <button class="search-button">Search</button>
-          
+          <script>
+  const button = document.querySelector('.search-button');
+  const input = document.querySelector('.search-input');
+
+  button.addEventListener('click', async () => {
+    const idea = input.value.trim();
+    if (!idea) {
+      alert('Please enter an idea!');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://chatbot-wd09.onrender.com/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idea: idea })
+      });
+
+      const data = await response.json();
+      alert(`Feasibility Score: ${data.score}\nRecommendation: ${data.message}`);
+    } catch (error) {
+      alert('Something went wrong while contacting the AI.');
+      console.error(error);
+    }
+  });
+</script>
+
 </body>
 </div>
 </html>
